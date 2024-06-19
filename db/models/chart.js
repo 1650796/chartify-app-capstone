@@ -1,4 +1,5 @@
-const { Schema } = require('mongoose');
+const { Schema, model } = require('mongoose');
+const DataSchema = require('./chartdata')
 
 const ChartSchema = new Schema({
     chartName: {
@@ -7,10 +8,21 @@ const ChartSchema = new Schema({
         maxLength: 100,
     },
 
+    chartType: {
+        type: Array [
+            "PieChart",
+            "BarChart",
+            "LineChart"
+        ],
+        required: true,
+    },
+
+    chartData: [DataSchema],
+
     createdAt: {
         type: Date,
         default: Date.now
     }
 })
 
-module.exports = ChartSchema
+module.exports = model.Chart || model('Chart', ChartSchema)
