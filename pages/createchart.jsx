@@ -8,8 +8,7 @@ import { withIronSessionSsr } from "iron-session/next";
 import sessionOptions from "../config/session";
 import Header from "../components/header";
 import useLogout from "../hooks/useLogout";
-import { Chart } from "react-google-charts";
-import { emit } from "../db/models/chart";
+//import db from '../db'
 
 
 export const getServerSideProps = withIronSessionSsr(
@@ -27,23 +26,45 @@ export const getServerSideProps = withIronSessionSsr(
   sessionOptions
 );
 
-export default function PieChart(props) {
+
+export default function CreateChart(props) {
   const router = useRouter();
   const logout = useLogout();
 
-  const [inputs, setInputs] = useState({});
+  const [input, setInput] = useState({
+    categoryone: "",
+    amountone: "",
+  });
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setInputs(values => ({...values, [name]: value}))
+    e.persist();
+    setInput({...input, [e.target.name]: e.target.value });
   }
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log(inputs);
+    if (!categoryone) return setError("Must include at least one category");
+    if (!amountone) return setError("Must include one category amount");
+
+    console.log(input);
+    
+    /*try {
+        const res = await fetch("/api/chart", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ categoryone, amountone }),
+        });
+        if (res.status === 200) {return router.push("/dashboard");}
+        const { error: message } = await res.json();
+        setError(message);
+      } catch (err) {
+        console.log(err);
+      }*/
   }
+
 
   return (
     <div className={styles.container}>
@@ -69,6 +90,7 @@ export default function PieChart(props) {
           </code>
         </p>
 
+
         <p className={styles.description}>
           Enter the values below to generate a pie chart:
         </p>
@@ -80,101 +102,25 @@ export default function PieChart(props) {
         <label htmlFor="categoryone">First Category: </label>
         <input 
          type="text" 
-         name="categoryone" 
-         value={inputs.cateogryone || ""} 
+         name="categoryone"
+         id="categoryone" 
+         value={input.categoryone}
          onChange={handleChange}
-        />
-        
+        />  
+
         <label htmlFor="amountone">First Category Amount:</label>
         <input 
           type="number" 
           name="amountone" 
-          value={inputs.amountone || ""} 
+          id="amountone" 
+          value={input.amountone}
           onChange={handleChange}
-        />
+        /> 
 
-        <label htmlFor="categorytwo">Second Category: </label>
-        <input 
-         type="text" 
-         name="categorytwo" 
-         value={inputs.categorytwo || ""} 
-         onChange={handleChange}
-        />
-        
-        <label htmlFor="amounttwo">First Category Amount:</label>
-        <input 
-          type="number" 
-          name="amounttwo" 
-          value={inputs.amounttwo || ""} 
-          onChange={handleChange}
-        />
-
-<label htmlFor="categorytwo">Second Category: </label>
-        <input 
-         type="text" 
-         name="categorytwo" 
-         value={inputs.categorytwo || ""} 
-         onChange={handleChange}
-        />
-        
-        <label htmlFor="amounttwo">First Category Amount:</label>
-        <input 
-          type="number" 
-          name="amounttwo" 
-          value={inputs.amounttwo || ""} 
-          onChange={handleChange}
-        />
-
-        <label htmlFor="categorythree">Second Category: </label>
-        <input 
-         type="text" 
-         name="categorythree" 
-         value={inputs.categorythree || ""} 
-         onChange={handleChange}
-        />
-        
-        <label htmlFor="amountthree">First Category Amount:</label>
-        <input 
-          type="number" 
-          name="amountthree" 
-          value={inputs.amountthree || ""} 
-          onChange={handleChange}
-        />
-
-        <label htmlFor="categoryfour">Second Category: </label>
-        <input 
-         type="text" 
-         name="categoryfour" 
-         value={inputs.categoryfour || ""} 
-         onChange={handleChange}
-        />
-        
-        <label htmlFor="amountfour">First Category Amount:</label>
-        <input 
-          type="number" 
-          name="amountfour" 
-          value={inputs.amountfour || ""} 
-          onChange={handleChange}
-        />
-
-        <label htmlFor="categoryfive">Second Category: </label>
-        <input 
-         type="text" 
-         name="categoryfive" 
-         value={inputs.categoryfive || ""} 
-         onChange={handleChange}
-        />
-        
-        <label htmlFor="amountfive">First Category Amount:</label>
-        <input 
-          type="number" 
-          name="amountfive" 
-          value={inputs.amountfive || ""} 
-          onChange={handleChange}
-        />
         <button>Submit</button>
           {error && <p>{error}</p>}
-    </form>
+        </form>
+
 
         <div className={styles.grid}>
           <Link href="/" className={styles.card}>

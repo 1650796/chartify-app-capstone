@@ -55,11 +55,11 @@ export default function Home(props) {
             <>
               <Link href="/dashboard" className={styles.card}>
                 <h2>Dashboard &rarr;</h2>
-                <p>This page is only visible if you are logged in.</p>
+                <p>View all your charts here.</p>
               </Link>
-              <Link href="/addchart" className={styles.card}>
-                <h2>Add Chart &rarr;</h2>
-                <p>Add a chart here.</p>
+              <Link href="/createchart" className={styles.card}>
+                <h2>Create Chart &rarr;</h2>
+                <p>Create a new chart here.</p>
               </Link>
               <div
                 onClick={logout}

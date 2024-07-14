@@ -1,5 +1,6 @@
 import { Schema, model, models } from 'mongoose'
 import bcrypt from 'bcrypt'
+const ChartSchema = require('./chart')
 
 const UserSchema = new Schema({
   name: {
@@ -14,12 +15,15 @@ const UserSchema = new Schema({
     required: true,
     unique: true
   },
+
   password: {
     type: String,
     required: true,
     minLength: 5,
     maxLength: 200
-  }
+  },
+  
+  userCharts: [ChartSchema]
 })
 
 // hashes the password before it's stored in mongo
