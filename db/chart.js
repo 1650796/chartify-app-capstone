@@ -9,5 +9,18 @@ export async function getAll(userId) {
     return user.userCharts.map(chart => normalize(chart))
 }
 
+export async function add(userId, chart) {
+    await dbConnect()
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { userCharts: chart } },
+      { new: true }
+    )
+    if (!user) return null
+    const addedChart = user.userCharts.find(cht => cht.chartId === chart.chartId)
+    return normalize(addedChart)
+
+  }
+
 
 

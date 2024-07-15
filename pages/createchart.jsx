@@ -33,6 +33,8 @@ export default function CreateChart(props) {
 
   const [input, setInput] = useState({
     chartName: "",
+    categoryTitle: "",
+    amountTitle: "",
     categoryone: "",
     amountone: "",
     categorytwo: "",
@@ -56,8 +58,42 @@ export default function CreateChart(props) {
     if (!categoryone) return setError("Must include at least one category");
     if (!amountone) return setError("Must include one category amount");
 
-    console.log(input);
-    
+    const data = [
+        [categoryTitle, amountTitle],
+        [categoryone, amountone],
+        [categorytwo, amounttwo],
+        [categorythree, amountthree],
+        [categoryfour, amountfour],
+        [categoryfive, amountfive],
+    ];
+
+    const options = {
+        title: chartName
+    }
+
+    console.log(options, data);
+
+
+   /*try {
+        const res = await fetch('/api/chart', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({ options, data }),
+          })
+        if (res.status === 200) {return router.push("/dashboard");}
+        const { error: message } = await res.json();
+        setError(message);
+
+    } catch (err) {
+        console.log(err);
+    }*/
+}
+
+
+
+
     /*try {
         const res = await fetch("/api/chart", {
           method: "POST",
@@ -72,7 +108,7 @@ export default function CreateChart(props) {
       } catch (err) {
         console.log(err);
       }*/
-  }
+  
 
 
   return (
@@ -117,7 +153,25 @@ export default function CreateChart(props) {
          value={input.chartName}
          onChange={handleChange}
         /> 
-        
+
+        <label htmlFor="categoryTitle">Category Title: </label>
+        <input 
+         type="text" 
+         name="categoryTitle"
+         id="categoryTitle" 
+         value={input.categoryTitle}
+         onChange={handleChange}
+        /> 
+
+        <label htmlFor="amountTitle">Amount Title: </label>
+        <input 
+         type="text" 
+         name="amountTitle"
+         id="amountTitle" 
+         value={input.amountTitle}
+         onChange={handleChange}
+        /> 
+
         <label htmlFor="categoryone">First Category: </label>
         <input 
          type="text" 
@@ -214,6 +268,10 @@ export default function CreateChart(props) {
 
 
         <div className={styles.grid}>
+          <Link href="/charts" className={styles.card}>
+            <h2>Charts prac &rarr;</h2>
+            <p>View all your charts here.</p>
+          </Link>
           <Link href="/" className={styles.card}>
             <h2>Home &rarr;</h2>
             <p>Return to the homepage.</p>
@@ -243,3 +301,4 @@ export default function CreateChart(props) {
     </div>
   );
 }
+
