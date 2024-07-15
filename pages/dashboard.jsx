@@ -123,7 +123,7 @@ export default function Dashboard(props) {
 function NoChartText() {
   return (
     <div className={styles.noBooks}>
-      <p><strong>You don't have any charts.</strong></p>
+      <p><strong>You don&apos;t have any charts.</strong></p>
       <p>Want to <Link href="/createchart">create one?</Link></p>
     </div>
   )
