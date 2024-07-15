@@ -268,8 +268,8 @@ export default function CreateChart(props) {
 
 
         <div className={styles.grid}>
-          <Link href="/charts" className={styles.card}>
-            <h2>Charts prac &rarr;</h2>
+          <Link href="/dashboard" className={styles.card}>
+            <h2>Dashboard &rarr;</h2>
             <p>View all your charts here.</p>
           </Link>
           <Link href="/" className={styles.card}>
