@@ -5,17 +5,17 @@ import db from '../../db'
 export default withIronSessionApiRoute(
   async function handler(req, res) {
       if (!req.session.user) {
-        return res.status(401).json({ error: "User Not Found" })
+        return res.status(401).json({ error: "Authorization error" })
       }
       switch(req.method) {
         case 'POST' :
           try  {
-          const chart = JSON.parse(req.body) 
-          const createChart = await db.chart.add(req.session.user.id, chart);
+          const createChart = JSON.parse(req.body) 
+          const createdChart = await db.chart.add(req.session.user.id, createChart);
 
-          if(createChart === null) {
+          if(createdChart === null) {
             req.session.destroy()
-            return res.status(401).json({error: "User not found"})
+            return res.status(401).json({error: "Authorization error"})
           }
 
           return res.status(200).json(createChart)
@@ -28,13 +28,13 @@ export default withIronSessionApiRoute(
           /*case 'DELETE':
               
             try {
-              const bodyParsed = await JSON.parse(req.body) 
-              const bookDelete = await db.book.remove(req.session.user.id, bodyParsed.id);
-              if (bookDelete === null) {
+              const deleteChart = await JSON.parse(req.body) 
+              const deletedChart = await db.book.remove(req.session.user.id, bodyParsed.id);
+              if (deletedChart === null) {
                 req.session.destroy()
-                return res.status(401).json({error: "User Not Found"})
+                return res.status(401).json({error: "Authorization error"})
               } 
-              return res.status(200).json(bodyParsed);
+              return res.status(200).json(deleteChart);
             
             } catch (error) {
               return res.status(400).json({ error: error.message });

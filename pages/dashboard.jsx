@@ -8,9 +8,10 @@ import sessionOptions from "../config/session";
 import Header from "../components/header";
 import useLogout from "../hooks/useLogout";
 import { Chart } from "react-google-charts";
-import dbConnect from "../db/connection";
-import ChartList from "../components/chartList";
-import db from "../db";
+
+//import dbConnect from "../db/connection";
+//import Chart from "../components/chartList";
+//import db from "../db";
 
 
 export const getServerSideProps = withIronSessionSsr(
@@ -28,12 +29,12 @@ export const getServerSideProps = withIronSessionSsr(
   sessionOptions
 );
 
-
 export const data = [
   ["Task", "Hours per Day"],
-  ["Work", 10],
+  ["Work", 11],
   ["Eat", 2],
-  ["Browse Internet", 5],
+  ["Commute", 2],
+  ["Watch TV", 2],
   ["Sleep", 7],
 ];
 
@@ -45,6 +46,7 @@ export const options = {
 export default function Dashboard(props) {
   const router = useRouter();
   const logout = useLogout();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -72,7 +74,7 @@ export default function Dashboard(props) {
         <p className={styles.description}>
           Here are your charts:
         </p>
-        
+        <div className={styles.grid}>
         <Chart
           chartType="PieChart"
           data={data}
@@ -80,12 +82,8 @@ export default function Dashboard(props) {
           width={"600px"}
           height={"400px"}
         />
+        </div>
 
-        {/*
-        {props.userCharts.length > 0 ? 
-        <ChartList charts={props.userCharts} />
-         : <NoChartText />}
-         */}
 
         <div className={styles.grid}>
           <Link href="/" className={styles.card}>

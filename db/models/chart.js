@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 
 
 const ChartSchema = new Schema({
+    chartId: String,
     chartName: {
         type: String,
         required: true,

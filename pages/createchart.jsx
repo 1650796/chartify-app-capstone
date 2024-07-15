@@ -32,8 +32,17 @@ export default function CreateChart(props) {
   const logout = useLogout();
 
   const [input, setInput] = useState({
+    chartName: "",
     categoryone: "",
     amountone: "",
+    categorytwo: "",
+    amounttwo: "",
+    categorythree: "",
+    amountthree: "",
+    categoryfour: "",
+    amountfour: "",
+    categoryfive: "",
+    amountfive: ""
   });
   const [error, setError] = useState("");
 
@@ -99,6 +108,16 @@ export default function CreateChart(props) {
          className={[styles.card, styles.form].join(" ")}
          onSubmit={handleSubmit}
         >
+
+        <label htmlFor="chartName">Chart Name: </label>
+        <input 
+         type="text" 
+         name="chartName"
+         id="chartName" 
+         value={input.chartName}
+         onChange={handleChange}
+        /> 
+        
         <label htmlFor="categoryone">First Category: </label>
         <input 
          type="text" 
@@ -116,6 +135,78 @@ export default function CreateChart(props) {
           value={input.amountone}
           onChange={handleChange}
         /> 
+
+        <label htmlFor="categorytwo">Second Category: </label>
+        <input 
+         type="text" 
+         name="categorytwo"
+         id="categorytwo" 
+         value={input.categorytwo}
+         onChange={handleChange}
+        />  
+
+        <label htmlFor="amounttwo">Second Category Amount:</label>
+        <input 
+          type="number" 
+          name="amounttwo" 
+          id="amounttwo" 
+          value={input.amounttwo}
+          onChange={handleChange}
+        /> 
+        
+        <label htmlFor="categorythree">Third Category: </label>
+        <input 
+         type="text" 
+         name="categorythree"
+         id="categorythree" 
+         value={input.categorythree}
+         onChange={handleChange}
+        />  
+
+        <label htmlFor="amountthree">Third Category Amount:</label>
+        <input 
+          type="number" 
+          name="amountthree" 
+          id="amountthree" 
+          value={input.amountthree}
+          onChange={handleChange}
+        /> 
+
+        <label htmlFor="categoryfour">Fourth Category: </label>
+        <input 
+         type="text" 
+         name="categoryfour"
+         id="categoryfour" 
+         value={input.categoryfour}
+         onChange={handleChange}
+        />  
+
+        <label htmlFor="amountfour">Fourth Category Amount:</label>
+        <input 
+          type="number" 
+          name="amountfour" 
+          id="amountfour" 
+          value={input.amountfour}
+          onChange={handleChange}
+        /> 
+
+        <label htmlFor="categoryfive">Fifth Category: </label>
+        <input 
+         type="text" 
+         name="categoryfive"
+         id="categoryfive" 
+         value={input.categoryfive}
+         onChange={handleChange}
+        />  
+
+        <label htmlFor="amountfive">Fifth Category Amount:</label>
+        <input 
+          type="number" 
+          name="amountfive" 
+          id="amountfive" 
+          value={input.amountfive}
+          onChange={handleChange}
+        />      
 
         <button>Submit</button>
           {error && <p>{error}</p>}
