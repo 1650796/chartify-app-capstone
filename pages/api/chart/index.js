@@ -1,6 +1,6 @@
 import { withIronSessionApiRoute } from "iron-session/next";
-import sessionOptions from "../../config/session"
-import db from '../../db'
+import sessionOptions from "../../../config/session"
+import db from '../../../db'
 
 export default withIronSessionApiRoute(
   async function handler(req, res) {
