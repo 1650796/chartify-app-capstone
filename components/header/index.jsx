@@ -1,5 +1,6 @@
 import styles from "./style.module.css";
 import Link from "next/link";
+import Image from "next/image";
 import useLogout from "../../hooks/useLogout";
 
 export default function Header(props) {
@@ -9,10 +10,18 @@ export default function Header(props) {
       {props.isLoggedIn ? (
         <>
           <p>
-            <Link href="/">Home</Link>
+            <Link href="/">
+              <Image src="/chartifylogo.svg" alt="Chartify Logo" width={100} height={100} />
+            </Link>
           </p>
-          <div className={styles.container}>
-            <p>Welcome, {props.name}!</p>
+          <div className={styles.menu}>
+            <p className={styles.name}>Welcome, {props.name}!</p>
+            <p>
+              <Link href="/dashboard">Dashboard</Link>
+            </p>
+            <p>
+              <Link href="/createchart">Create Chart</Link>
+            </p>
             <p onClick={logout} style={{ cursor: "pointer" }}>
               Logout
             </p>
@@ -21,11 +30,18 @@ export default function Header(props) {
       ) : (
         <>
           <p>
-            <Link href="/">Home</Link>
+            <Link href="/">
+              <Image src="/chartifylogo.svg" alt="Chartify Logo" width={100} height={100} />
+            </Link>
           </p>
+          <div className={styles.menu}>
           <p>
             <Link href="/login">Login</Link>
           </p>
+          <p>
+            <Link href="/signup">Signup</Link>
+          </p>
+          </div>
         </>
       )}
     </header>
