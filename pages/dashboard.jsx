@@ -11,16 +11,19 @@ import { Chart } from "react-google-charts";
 
 //import dbConnect from "../db/connection";
 //import Chart from "../components/chartList";
-//import db from "../db";
+//import chart from "../db";
 
 
 export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps({ req }) {
+  async function getServerSideProps({ req, params }) {
     const user = req.session.user;
     const props = {};
     if (user) {
       props.user = req.session.user;
       props.isLoggedIn = true;
+      {/*const chart = await db.chart.getByChartId(req.session.user.id, params.id)
+      if (chart)
+        props.chart = chart*/}
     } else {
       props.isLoggedIn = false;
     }
@@ -47,6 +50,7 @@ export default function Dashboard(props) {
   const router = useRouter();
   const logout = useLogout();
 
+
   return (
     <div className={styles.container}>
       <Head>
@@ -61,10 +65,11 @@ export default function Dashboard(props) {
         <h1 className={styles.title}>
           Your Dashboard
         </h1>
-
         <p className={styles.description}>
           Here are your recently-created charts:
         </p>
+
+
         <div className={[styles.chart, styles.grid]}>
           <Chart
             chartType="PieChart"
@@ -74,7 +79,6 @@ export default function Dashboard(props) {
             height={"400px"}
           />
         </div>
-
 
         <div className={styles.grid}>
           <Link href="/" className={styles.card}>
@@ -102,13 +106,4 @@ export default function Dashboard(props) {
       </footer>
     </div>
   );
-}
-
-function NoChartText() {
-  return (
-    <div className={styles.noBooks}>
-      <p><strong>You don&apos;t have any charts.</strong></p>
-      <p>Want to <Link href="/createchart">create one?</Link></p>
-    </div>
-  )
 }

@@ -9,7 +9,16 @@ export async function getAll(userId) {
     return user.userCharts.map(chart => normalize(chart))
 }
 
-export async function add(userId, chart) {
+export async function getByChartId(userId, chartId) {
+  await dbConnect()
+  const user = await User.findById(userId).lean()
+  if (!user) return null
+  const chart = user.userCharts.find(chart => chart.chartId === chartId)
+  if (chart) return normalize(chart)
+  return null
+}
+
+export async function create(userId, chart) {
     await dbConnect()
     const user = await User.findByIdAndUpdate(
       userId,

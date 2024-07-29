@@ -7,7 +7,7 @@ export default function ChartList({charts}) {
     return (
       <div className={styles.list}>
         {charts.map(chart => <Link key={chart.chartId} href={`/chart/${chart.chartId}`} style={{textDecoration: 'none'}}>
-          <Chart {...chart} />
+          <ChartPreview {...chart} />
         </Link>)}
       </div>
     )

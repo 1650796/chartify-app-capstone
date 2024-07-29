@@ -1,8 +1,12 @@
-import styles from './style.module.css'
+import styles from "../../styles/Home.module.css";
 import { Chart } from "react-google-charts";
-import CreateChart from '../../pages/createchart';
+import db from "../../db";
 
-/*export const data = [
+
+export const options = {
+  title: chartName
+}
+export const data = [
     [categoryTitle, amountTitle],
     [categoryone, amountone],
     [categorytwo, amounttwo],
@@ -11,22 +15,35 @@ import CreateChart from '../../pages/createchart';
     [categoryfive, amountfive],
 ];
 
-export const options = {
-    title: chartName
-}
-*/
+
+/*
 export default function ChartPreview(props) {
   return (
     <div className={styles.preview}>
-      <div>
       <Chart 
         chartType="PieChart"
-        data={props.data}
-        options={props.options}
+        data={props.chart.data}
+        options={props.chart.options}
         width={"600px"}
         height={"400px"} 
         />
-      </div>
     </div>
+  )
+}*/
+
+export default function ChartPreview({
+  options,
+  data
+}) {
+  return (
+<div className={[styles.chart, styles.grid]}>
+          <Chart
+            chartType="PieChart"
+            data={data}
+            options={options}
+            width={"600px"}
+            height={"400px"}
+          />
+        </div>
   )
 }

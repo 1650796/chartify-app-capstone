@@ -7,8 +7,6 @@ import styles from "../styles/Home.module.css";
 import { withIronSessionSsr } from "iron-session/next";
 import sessionOptions from "../config/session";
 import Header from "../components/header";
-import useLogout from "../hooks/useLogout";
-//import db from '../db'
 
 
 export const getServerSideProps = withIronSessionSsr(
@@ -29,7 +27,6 @@ export const getServerSideProps = withIronSessionSsr(
 
 export default function CreateChart(props) {
   const router = useRouter();
-  const logout = useLogout();
 
   const [input, setInput] = useState({
     chartName: "",
@@ -55,8 +52,13 @@ export default function CreateChart(props) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     if (!categoryone) return setError("Must include at least one category");
     if (!amountone) return setError("Must include one category amount");
+
+    const options = {
+      title: chartName
+    }
 
     const data = [
         [categoryTitle, amountTitle],
@@ -65,51 +67,26 @@ export default function CreateChart(props) {
         [categorythree, amountthree],
         [categoryfour, amountfour],
         [categoryfive, amountfive],
-    ];
-
-    const options = {
-        title: chartName
-    }
-
-    console.log(options, data);
+    ]
 
 
-   /*try {
-        const res = await fetch('/api/chart', {
-            method: "POST",
+        try {
+          const res = await fetch('/api/chart', {
+            method: 'POST',
             headers: {
-                "content-type": "application/json",
+              "content-type": "application/json",
             },
-            body: JSON.stringify({ options, data }),
-          })
-        if (res.status === 200) {return router.push("/dashboard");}
-        const { error: message } = await res.json();
-        setError(message);
-
-    } catch (err) {
-        console.log(err);
-    }*/
-}
-
-
-
-
-    /*try {
-        const res = await fetch("/api/chart", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({ categoryone, amountone }),
-        });
-        if (res.status === 200) {return router.push("/dashboard");}
-        const { error: message } = await res.json();
-        setError(message);
-      } catch (err) {
-        console.log(err);
-      }*/
-  
-
+            body: JSON.stringify({...input}),
+          });
+          if (res.status === 200) return router.push("/dashboard");
+          console.log({...input})
+          const { error: message } = await res.json();
+          setError(message);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+   
 
   return (
     <div className={styles.container}>

@@ -1,26 +1,22 @@
 import { withIronSessionApiRoute } from "iron-session/next";
-import sessionOptions from "../../../config/session"
-import db from '../../../db'
+import sessionOptions from "../../config/session"
+import db from '../../db'
 
 export default withIronSessionApiRoute(
   async function handler(req, res) {
       if (!req.session.user) {
-        return res.status(401).json({ error: "Authorization error" })
+        return res.status(401).json({ error: "You are not authorized to access this page." })
       }
+
       switch(req.method) {
         case 'POST' :
           try  {
-          const createChart = JSON.parse(req.body) 
-          const createdChart = await db.chart.add(req.session.user.id, createChart);
+            const chart = req.body
+            const createChart = await db.chart.create(req.session.user.id, chart);
 
-          if(createdChart === null) {
-            req.session.destroy()
-            return res.status(401).json({error: "Authorization error"})
-          }
+            return res.status(200).json("Chart created successfully.")
 
-          return res.status(200).json(createChart)
-          }
-           catch (error) {
+          } catch (error) {
             return res.status(400).json({error: error.message})
           }
 
@@ -40,10 +36,9 @@ export default withIronSessionApiRoute(
               return res.status(400).json({ error: error.message });
             }*/
 
-            default: 
-            return res.status(404).end()
-        
+        default: 
+          return res.status(404).end()
       }
-  },
+    },
   sessionOptions
 )
