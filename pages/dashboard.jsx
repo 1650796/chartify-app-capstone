@@ -80,17 +80,6 @@ export default function Dashboard(props) {
             height={"400px"}
           />
         </div>
-        {/*{props.userCharts.length > 0 ?
-  
-        <div className={[styles.chart, styles.grid]}>
-          <ChartPreview
-          key={}
-          />
-        </div>
-        : 
-        <p>No charts</p>
-              }
-        */}
 
         <div className={styles.grid}>
           <Link href="/" className={styles.card}>
