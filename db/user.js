@@ -7,10 +7,20 @@ export async function create(name, username, password) {
 
   await dbConnect()
 
+  /*const user = new User({
+    name,
+    username,
+    password
+  })
+
+  await user.save()*/
+
   const user = await User.create({name, username, password})
 
   if (!user)
     throw new Error('Error inserting User')
+
+  //return user;
 
   return user.toJSON()
 }

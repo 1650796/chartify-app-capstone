@@ -96,7 +96,7 @@ export default function CreateChart(props) {
         <link rel="icon" href="/chartifylogo.png" />
       </Head>
 
-      <Header isLoggedIn={props.isLoggedIn} name={props?.user?.name} />
+      <Header isLoggedIn={props.isLoggedIn} name={props.user.name} />
 
       <main className={styles.main}>
         <h1 className={styles.title}>

@@ -12,7 +12,9 @@ export default withIronSessionApiRoute(
         case 'POST' :
           try  {
             const chart = req.body
-            const createChart = await db.chart.create(req.session.user.id, chart);
+            console.log(req.session)
+            const createChart = await db.chart.create(req.session.user._id, chart);
+            console.log(createChart)
 
             return res.status(200).json("Chart created successfully.")
 

@@ -20,6 +20,7 @@ export async function getByChartId(userId, chartId) {
 
 export async function create(userId, chart) {
     await dbConnect()
+    console.log(chart)
     const user = await User.findByIdAndUpdate(
       userId,
       { $addToSet: { userCharts: chart } },

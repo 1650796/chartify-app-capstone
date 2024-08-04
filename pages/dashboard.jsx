@@ -8,6 +8,7 @@ import sessionOptions from "../config/session";
 import Header from "../components/header";
 import useLogout from "../hooks/useLogout";
 import { Chart } from "react-google-charts";
+import ChartPreview from "../components/chartPreview";
 
 //import dbConnect from "../db/connection";
 //import Chart from "../components/chartList";
@@ -59,7 +60,7 @@ export default function Dashboard(props) {
         <link rel="icon" href="/chartifylogo.png" />
       </Head>
 
-      <Header isLoggedIn={props.isLoggedIn} name={props?.user?.name} />
+      <Header isLoggedIn={props.isLoggedIn} name={props.user.name} />
 
       <main className={styles.main}>
         <h1 className={styles.title}>
@@ -79,6 +80,17 @@ export default function Dashboard(props) {
             height={"400px"}
           />
         </div>
+        {/*{props.userCharts.length > 0 ?
+  
+        <div className={[styles.chart, styles.grid]}>
+          <ChartPreview
+          key={}
+          />
+        </div>
+        : 
+        <p>No charts</p>
+              }
+        */}
 
         <div className={styles.grid}>
           <Link href="/" className={styles.card}>

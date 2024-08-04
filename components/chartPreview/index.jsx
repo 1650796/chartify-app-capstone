@@ -3,7 +3,7 @@ import { Chart } from "react-google-charts";
 import db from "../../db";
 
 
-export const options = {
+/*export const options = {
   title: chartName
 }
 export const data = [
@@ -14,7 +14,7 @@ export const data = [
     [categoryfour, amountfour],
     [categoryfive, amountfive],
 ];
-
+*/
 
 /*
 export default function ChartPreview(props) {
@@ -36,7 +36,7 @@ export default function ChartPreview({
   data
 }) {
   return (
-<div className={[styles.chart, styles.grid]}>
+    <div className={[styles.chart, styles.grid]}>
           <Chart
             chartType="PieChart"
             data={data}
@@ -44,6 +44,6 @@ export default function ChartPreview({
             width={"600px"}
             height={"400px"}
           />
-        </div>
+      </div>
   )
 }
