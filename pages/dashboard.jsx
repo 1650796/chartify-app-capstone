@@ -8,11 +8,9 @@ import sessionOptions from "../config/session";
 import Header from "../components/header";
 import useLogout from "../hooks/useLogout";
 import { Chart } from "react-google-charts";
-import ChartPreview from "../components/chartPreview";
+//import ChartPreview from "../components/chartPreview";
+import db from "../db";
 
-//import dbConnect from "../db/connection";
-//import Chart from "../components/chartList";
-//import chart from "../db";
 
 
 export const getServerSideProps = withIronSessionSsr(
@@ -22,6 +20,10 @@ export const getServerSideProps = withIronSessionSsr(
     if (user) {
       props.user = req.session.user;
       props.isLoggedIn = true;
+
+      const charts = await db.chart.getAll()
+      if (charts) 
+        console.log(charts)
       {/*const chart = await db.chart.getByChartId(req.session.user.id, params.id)
       if (chart)
         props.chart = chart*/}

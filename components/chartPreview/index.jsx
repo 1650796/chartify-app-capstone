@@ -1,6 +1,5 @@
 import styles from "../../styles/Home.module.css";
 import { Chart } from "react-google-charts";
-import db from "../../db";
 
 
 /*export const options = {
