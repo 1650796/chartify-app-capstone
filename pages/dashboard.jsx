@@ -19,6 +19,7 @@ export const getServerSideProps = withIronSessionSsr(
       props.user = req.session.user;
       props.isLoggedIn = true;
       props.charts = charts;
+      console.log(charts);
     }
 
     return {
@@ -27,6 +28,33 @@ export const getServerSideProps = withIronSessionSsr(
   },
   sessionOptions,
 );
+
+export default function Dashboard(props) {
+  const router = useRouter()
+  //let charts = props.charts;
+  let charts
+  if (props.charts) {
+    charts = props.charts
+  }
+
+  async function deleteChart(e) {
+    e.preventDefault()
+    try {
+      const res = await fetch('/api/chart', {
+        method: 'DELETE',
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({id: charts.id})
+      })
+      if (res.status === 200) {
+        router.replace(router.asPath)
+        console.log("Chart deleted successfully")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -75,16 +103,21 @@ export const getServerSideProps = withIronSessionSsr(
                 ];
 
                 return (
+                  <div className={styles.chart}>
                   <ChartPreview
                     key={id}
                     title={chartName}
                     data={data}
                   />
+                  <button className={styles.deletebutton} onClick={deleteChart}>
+                  Delete
+                  </button>                 
+                  </div>
                 );
               })}
             </div>
           )
-          : <p>No charts yet. Want to add one?</p>}
+          : <p>No charts yet. Want to create one?</p>}
 
         <div className={styles.grid}>
           <Link href="/" className={styles.card}>
@@ -119,7 +152,8 @@ function ChartPreview({
   title,
 }) {
   return (
-    <div className={styles.chart}>
+    <div>
+      <h2 className={styles.charttitle}>{title}</h2>
       <Chart
         chartType="PieChart"
         data={data}

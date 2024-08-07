@@ -52,23 +52,11 @@ export default function CreateChart(props) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+    if (!chartName) return setError("Must include a chart name");
+    if (!categoryTitle) return setError("Must include category title");
+    if (!amountTitle) return setError("Must include amount title");
     if (!categoryone) return setError("Must include at least one category");
     if (!amountone) return setError("Must include one category amount");
-
-    const options = {
-      title: chartName
-    }
-
-    const data = [
-        [categoryTitle, amountTitle],
-        [categoryone, amountone],
-        [categorytwo, amounttwo],
-        [categorythree, amountthree],
-        [categoryfour, amountfour],
-        [categoryfive, amountfive],
-    ]
-
 
         try {
           const res = await fetch('/api/chart', {
@@ -117,6 +105,7 @@ export default function CreateChart(props) {
          type="text" 
          name="chartName"
          id="chartName" 
+         placeholder="e.g. My Pie Chart"
          value={input.chartName}
          onChange={handleChange}
         /> 
@@ -128,6 +117,7 @@ export default function CreateChart(props) {
          type="text" 
          name="categoryTitle"
          id="categoryTitle" 
+         placeholder="e.g. Daily Tasks"
          value={input.categoryTitle}
          onChange={handleChange}
         /> 
@@ -137,6 +127,7 @@ export default function CreateChart(props) {
          type="text" 
          name="amountTitle"
          id="amountTitle" 
+         placeholder="e.g. Hours per Day"
          value={input.amountTitle}
          onChange={handleChange}
         /> 
@@ -148,6 +139,7 @@ export default function CreateChart(props) {
          type="text" 
          name="categoryone"
          id="categoryone" 
+         placeholder="e.g. Eat"
          value={input.categoryone}
          onChange={handleChange}
         />  
@@ -157,6 +149,7 @@ export default function CreateChart(props) {
           type="number" 
           name="amountone" 
           id="amountone" 
+          placeholder="e.g. 3"
           value={input.amountone}
           onChange={handleChange}
         /> 
@@ -168,6 +161,7 @@ export default function CreateChart(props) {
          type="text" 
          name="categorytwo"
          id="categorytwo" 
+         placeholder="e.g. Sleep"
          value={input.categorytwo}
          onChange={handleChange}
         />  
@@ -177,6 +171,7 @@ export default function CreateChart(props) {
           type="number" 
           name="amounttwo" 
           id="amounttwo" 
+          placeholder="e.g. 7"
           value={input.amounttwo}
           onChange={handleChange}
         /> 
@@ -188,6 +183,7 @@ export default function CreateChart(props) {
          type="text" 
          name="categorythree"
          id="categorythree" 
+         placeholder="e.g. Work"
          value={input.categorythree}
          onChange={handleChange}
         />  
@@ -197,6 +193,7 @@ export default function CreateChart(props) {
           type="number" 
           name="amountthree" 
           id="amountthree" 
+          placeholder="e.g. 8"
           value={input.amountthree}
           onChange={handleChange}
         /> 
@@ -208,6 +205,7 @@ export default function CreateChart(props) {
          type="text" 
          name="categoryfour"
          id="categoryfour" 
+         placeholder="e.g. Commute"
          value={input.categoryfour}
          onChange={handleChange}
         />  
@@ -217,6 +215,7 @@ export default function CreateChart(props) {
           type="number" 
           name="amountfour" 
           id="amountfour" 
+          placeholder="e.g. 3"
           value={input.amountfour}
           onChange={handleChange}
         /> 
@@ -228,6 +227,7 @@ export default function CreateChart(props) {
          type="text" 
          name="categoryfive"
          id="categoryfive" 
+         placeholder="e.g. Watch TV"
          value={input.categoryfive}
          onChange={handleChange}
         />  
@@ -237,6 +237,7 @@ export default function CreateChart(props) {
           type="number" 
           name="amountfive" 
           id="amountfive" 
+          placeholder="e.g. 3"
           value={input.amountfive}
           onChange={handleChange}
         />  

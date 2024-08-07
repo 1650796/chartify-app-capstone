@@ -14,7 +14,7 @@ export default withIronSessionApiRoute(
             const chart = req.body
             console.log(req.session)
             const createChart = await db.chart.create(req.session.user._id, chart);
-            console.log(createChart)
+            console.log(createChart);
 
             return res.status(200).json("Chart created successfully.")
 
@@ -22,6 +22,16 @@ export default withIronSessionApiRoute(
             return res.status(400).json({error: error.message})
           }
 
+        case 'DELETE':
+          try {
+            const deleteChart = await db.chart.remove(req.session.user.id, req.body.id)
+            console.log(deleteChart);
+
+            return res.status(200).json("Chart deleted successfully.")
+            
+          } catch (err) {
+            return res.status(400).json({ error: err.message })
+          }
 
         default: 
           return res.status(404).end()

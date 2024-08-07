@@ -33,5 +33,16 @@ export async function create(userId, chart) {
 
   }
 
+  export async function remove(userId, chartId) {
+    await dbConnect()
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $pull: { userCharts: {_id: chartId } } },
+      { new: true }
+    )
+    if (!user) return null
+    return true
+  }
+
 
 
