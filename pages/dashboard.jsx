@@ -5,98 +5,28 @@ import styles from "../styles/Home.module.css";
 import { withIronSessionSsr } from "iron-session/next";
 import sessionOptions from "../config/session";
 import Header from "../components/header";
-//import ChartPreview from "../components/chartPreview";
 import { Chart } from "react-google-charts";
-import { useState } from "react";
-
+import { useRouter } from "next/router"
 import db from "../db";
-
-
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
     const user = req.session.user;
-    const charts = await db.chart.getAll(user._id)
+    const charts = await db.chart.getAll(user._id);
     const props = {};
 
-    if(user) {
+    if (user) {
       props.user = req.session.user;
       props.isLoggedIn = true;
-      console.log(charts)
+      props.charts = charts;
     }
 
-    return { 
-      props
+    return {
+      props,
     };
   },
-  sessionOptions
+  sessionOptions,
 );
-
-
-{/*
-  export const options = {
-  title: { chartName },
-  is3D: true,
-};
-
-export const data = [
-  [{categoryTitle}, {amountTitle}],
-  [{cateogryone}, {amountone}],
-  [{categorytwo}, {amounttwo}],
-  [{categorythree}, {amountthree}],
-  [{categoryfour}, {amountfour}],
-  [{categoryfive}, {amountfive}],
-];
-*/}
-
-export default function Dashboard(props) {
- /*
-  let charts = props.charts;
-  let chartName = props.chartName;
-  let categoryTitle = props.categoryTitle;
-  let amountTitle = props.amountTitle;
-  let cateogryone = props.cateogryone;
-  let categorytwo = props.categorytwo;
-  let categorythree = props.categorythree;
-  let categoryfour = props.categoryfour;
-  let categoryfive = props.categoryfive;
-  let amountone = props.amountone;
-  let amounttwo = props.amounttwo;
-  let amountthree = props.amountthree;
-  let amountfour = props.amountfour;
-  let amountfive = props.amountfive;
-
-
-
-let charts = props.charts;
-
-let chartName = props.chartName;
-let categoryTitle = props.categoryTitle;
-let amountTitle = props.amountTitle;
-let cateogryone = props.cateogryone;
-let categorytwo = props.categorytwo;
-let categorythree = props.categorythree;
-let categoryfour = props.categoryfour;
-let categoryfive = props.categoryfive;
-let amountone = props.amountone;
-let amounttwo = props.amounttwo;
-let amountthree = props.amountthree;
-let amountfour = props.amountfour;
-let amountfive = props.amountfive;
-
-const options = {
-  title: {chartName},
-};
-
-const data = [
-  [{categoryTitle}, {amountTitle}],
-  [{cateogryone}, {amountone}],
-  [{categorytwo}, {amounttwo}],
-  [{categorythree}, {amountthree}],
-  [{categoryfour}, {amountfour}],
-  [{categoryfive}, {amountfive}],
-];
-*/
 
   return (
     <div className={styles.container}>
@@ -116,25 +46,45 @@ const data = [
           Here are your recently-created charts:
         </p>
 
-
-        {
-          charts?.length > 0
+        {charts?.length > 0
           ? (
-            <div className={[styles.chart, styles.grid]}>
-              {charts.map((chart) =>
-                <ChartPreview
-                  key={chart.id}
-                  options={chart.options}
-                  data={chart.data}
-                />
-              )}
+            <div>
+              {charts.map(({
+                id,
+                chartName,
+                categoryTitle,
+                amountTitle,
+                categoryone,
+                amountone,
+                categorytwo,
+                amounttwo,
+                categorythree,
+                amountthree,
+                categoryfour,
+                amountfour,
+                categoryfive,
+                amountfive,
+              }) => {
+                const data = [
+                  [categoryTitle, amountTitle],
+                  [categoryone, amountone],
+                  [categorytwo, amounttwo],
+                  [categorythree, amountthree],
+                  [categoryfour, amountfour],
+                  [categoryfive, amountfive],
+                ];
 
-          </div>
+                return (
+                  <ChartPreview
+                    key={id}
+                    title={chartName}
+                    data={data}
+                  />
+                );
+              })}
+            </div>
           )
-          : <p>No charts yet. Want to add one?</p>
-
-        }
-
+          : <p>No charts yet. Want to add one?</p>}
 
         <div className={styles.grid}>
           <Link href="/" className={styles.card}>
@@ -142,8 +92,8 @@ const data = [
             <p>Return to the homepage.</p>
           </Link>
           <Link href="/createchart" className={styles.card}>
-                <h2>Create Chart &rarr;</h2>
-                <p>Create a new chart here.</p>
+            <h2>Create Chart &rarr;</h2>
+            <p>Create a new chart here.</p>
           </Link>
         </div>
       </main>
@@ -166,17 +116,17 @@ const data = [
 
 function ChartPreview({
   data,
-  options
+  title,
 }) {
   return (
-    <div className={[styles.chart, styles.grid]}>
-          <Chart
-            chartType="PieChart"
-            data={data}
-            options={options}
-            width={"600px"}
-            height={"400px"}
-          />
-      </div>
-  )
+    <div className={styles.chart}>
+      <Chart
+        chartType="PieChart"
+        data={data}
+        options={{title, is3D: true}}
+        width={"600px"}
+        height={"400px"}
+      />
+    </div>
+  );
 }
