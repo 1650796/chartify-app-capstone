@@ -1,14 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import { withIronSessionSsr } from "iron-session/next";
 import sessionOptions from "../config/session";
 import Header from "../components/header";
-//import ChartPreview from "../components/chartPreview";
 import { Chart } from "react-google-charts";
-import { useState } from "react";
-
 import db from "../db";
 
 
@@ -16,61 +14,32 @@ import db from "../db";
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
     const user = req.session.user;
-    const charts = await db.chart.getAll(user._id)
-    const props = {};
 
-    if(user) {
+    const charts = await db.chart.getAll(user.id)
+    console.log(charts)
+    
+    //const props = {};
+
+    {/*if (user) {
       props.user = req.session.user;
       props.isLoggedIn = true;
-      console.log(charts)
-    }
 
+      const charts = await db.chart.getAll(user.id)
+    } else {
+      props.isLoggedIn = false;
+    }*/}
     return { 
-      props
+      props: {
+        user: req.session.user,
+        isLoggedIn: true,
+        userCharts: charts,
+      } 
     };
   },
   sessionOptions
 );
 
-
-{/*
-  export const options = {
-  title: { chartName },
-  is3D: true,
-};
-
-export const data = [
-  [{categoryTitle}, {amountTitle}],
-  [{cateogryone}, {amountone}],
-  [{categorytwo}, {amounttwo}],
-  [{categorythree}, {amountthree}],
-  [{categoryfour}, {amountfour}],
-  [{categoryfive}, {amountfive}],
-];
-*/}
-
-export default function Dashboard(props) {
- /*
-  let charts = props.charts;
-  let chartName = props.chartName;
-  let categoryTitle = props.categoryTitle;
-  let amountTitle = props.amountTitle;
-  let cateogryone = props.cateogryone;
-  let categorytwo = props.categorytwo;
-  let categorythree = props.categorythree;
-  let categoryfour = props.categoryfour;
-  let categoryfive = props.categoryfive;
-  let amountone = props.amountone;
-  let amounttwo = props.amounttwo;
-  let amountthree = props.amountthree;
-  let amountfour = props.amountfour;
-  let amountfive = props.amountfive;
-
-
-
-let charts = props.charts;
-
-let chartName = props.chartName;
+/*let chartName = props.chartName;
 let categoryTitle = props.categoryTitle;
 let amountTitle = props.amountTitle;
 let cateogryone = props.cateogryone;
@@ -85,8 +54,9 @@ let amountfour = props.amountfour;
 let amountfive = props.amountfive;
 
 const options = {
-  title: {chartName},
-};
+  title: {userCharts.chartName} ,
+  is3D: true,
+}
 
 const data = [
   [{categoryTitle}, {amountTitle}],
@@ -95,8 +65,10 @@ const data = [
   [{categorythree}, {amountthree}],
   [{categoryfour}, {amountfour}],
   [{categoryfive}, {amountfive}],
-];
+]
 */
+export default function Dashboard(props) {
+
 
   return (
     <div className={styles.container}>
@@ -106,7 +78,7 @@ const data = [
         <link rel="icon" href="/chartifylogo.png" />
       </Head>
 
-      <Header isLoggedIn={props.isLoggedIn} name={props?.user?.name} />
+      <Header isLoggedIn={props.isLoggedIn} name={props.user.name} />
 
       <main className={styles.main}>
         <h1 className={styles.title}>
@@ -116,18 +88,19 @@ const data = [
           Here are your recently-created charts:
         </p>
 
-
         {
-          charts?.length > 0
+          props?.charts?.length > 0
           ? (
             <div className={[styles.chart, styles.grid]}>
               {charts.map((chart) =>
-                <ChartPreview
-                  key={chart.id}
-                  options={chart.options}
-                  data={chart.data}
+                <Chart
+                chartType="PieChart"
+                data={data}
+                options={options}
+                width={"600px"}
+                height={"400px"}
                 />
-              )}
+            )}
 
           </div>
           )
@@ -162,21 +135,4 @@ const data = [
       </footer>
     </div>
   );
-}
-
-function ChartPreview({
-  data,
-  options
-}) {
-  return (
-    <div className={[styles.chart, styles.grid]}>
-          <Chart
-            chartType="PieChart"
-            data={data}
-            options={options}
-            width={"600px"}
-            height={"400px"}
-          />
-      </div>
-  )
 }

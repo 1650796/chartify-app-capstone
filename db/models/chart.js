@@ -7,27 +7,33 @@ const ChartSchema = new Schema({
         required: true,
         maxLength: 100,
     },
-    categoryTitle: String,
-    amountTitle: String,
+    categoryTitle: {
+        type: String,
+        required: true,
+    },
+    amountTitle: {
+        type: String,
+        required: true,
+    },
 
-    categoryone: String,
+    categoryone: {
+        type: String,
+        required: true,
+    },
     categorytwo: String,
     categorythree: String,
     categoryfour: String,
     categoryfive: String,
 
-    amountone: Number,
+    amountone: {
+        type: Number,
+        required: true,
+    },
     amounttwo: Number,
     amountthree: Number,
     amountfour: Number,
     amountfive: Number
 
-    /*chartData: [{
-        categoryTitle: String,
-        amountTitle: String,
-        categories: [String],
-        amounts: [Number]
-    }]*/
 });
 
 module.exports = ChartSchema

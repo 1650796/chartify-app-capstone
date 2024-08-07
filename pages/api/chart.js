@@ -23,21 +23,6 @@ export default withIronSessionApiRoute(
           }
 
 
-          /*case 'DELETE':
-              
-            try {
-              const deleteChart = await JSON.parse(req.body) 
-              const deletedChart = await db.book.remove(req.session.user.id, bodyParsed.id);
-              if (deletedChart === null) {
-                req.session.destroy()
-                return res.status(401).json({error: "Authorization error"})
-              } 
-              return res.status(200).json(deleteChart);
-            
-            } catch (error) {
-              return res.status(400).json({ error: error.message });
-            }*/
-
         default: 
           return res.status(404).end()
       }
