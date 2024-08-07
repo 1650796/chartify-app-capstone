@@ -103,9 +103,9 @@ export default function Dashboard(props) {
                 ];
 
                 return (
-                  <div className={styles.chart}>
+                  <div key={id} className={styles.chart}>
                   <ChartPreview
-                    key={id}
+                    //key={id}
                     title={chartName}
                     data={data}
                   />
